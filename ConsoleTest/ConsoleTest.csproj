@@ -49,11 +49,5 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AipplicaSpectrometer\AipplicaSpectrometer.vcxproj">
-      <Project>{1cb7090d-3999-45af-a995-82f483be13e3}</Project>
-      <Name>AipplicaSpectrometer</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
