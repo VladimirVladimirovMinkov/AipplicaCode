@@ -83,7 +83,7 @@ int main()
 	uint8 NumCalCoeff = ptrnbfr[1] / 4;
 	uint8 fourbytes[4]{};
 	float calV[3]{};
-	printf("NumofCalCoeff: 0%d\n", NumCalCoeff);
+	printf("NumofCalCoeff: %d\n", NumCalCoeff);
 	for (int i = 0; i < NumCalCoeff; i++) {
 		for (int j = 1; j < 5; j++) { fourbytes[j - 1] = ptrnbfr[8 * i + 2 * j + 1]; }
 		printf("C[%d] %f    \n", i, calV[i] = *(float*)fourbytes);

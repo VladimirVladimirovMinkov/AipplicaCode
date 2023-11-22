@@ -27,7 +27,7 @@ Spectro.ReadCal(patternBuffer);
 int NumCalCoeff = patternBuffer[1] / 4;
 byte[] fourbytes = new byte[4];
 float[] calV = new float[NumCalCoeff];
-Console.WriteLine($"NumofCalCoeff: 0{NumCalCoeff}");
+Console.WriteLine($"NumofCalCoeff: {NumCalCoeff}");
 for (int i = 0; i < NumCalCoeff; i++)
 {
     for (int j = 1; j < 5; j++) { fourbytes[j - 1] = patternBuffer[8 * i + 2 * j + 1]; }
