@@ -8,15 +8,17 @@ namespace AipplicaSpectrometer {
 	public ref class Spectro
 	{
 		public: 
-			static int CheckBusy();
-			static int InitUSB();
-			static int ReadPattern(uint8* pptrnbfr);
-			static int ReadID(uint8* prbuf);
-			static int ReadCal(uint8* pptrnbfr);
-			static int WriteCalData(float coeff[7]);
-			static int ReadArray(uint8* pptrnbfr);
-			static int ReadFrame(uint8* pptrnbfr);
-			static int SetIntTime(uint16 inttime);
+			static void CheckBusy();
+			static void InitUSB();
+			static void ReadPattern(array<System::Byte>^ patternBuffer);
+			static void ReadID(array<System::Byte>^ idBuffer);
+			static void ReadCal(array<System::Byte>^ patternBuffer);
+			static void WriteCalData(array<float>^ coeff);
+			static void ReadArray(array<System::Byte>^ signalBuffer);
+			static void ReadFrame(array<System::Byte>^ frameBuffer);
+			static void SetIntTime(uint16 inttime);
+			static void SetIntTimeMs(int inttime);
+			static void DisplaySignal(array<System::Byte>^ referenceSignalBuffer, array<System::Byte>^ signalBuffer);
 			static void Close();
 	};
 }
