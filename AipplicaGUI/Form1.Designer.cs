@@ -32,16 +32,17 @@
             button1 = new Button();
             numericUpDown1 = new NumericUpDown();
             label1 = new Label();
+            button2 = new Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // formsPlot1
             // 
             formsPlot1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            formsPlot1.Location = new Point(14, 13);
+            formsPlot1.Location = new Point(-8, 13);
             formsPlot1.Margin = new Padding(5, 4, 5, 4);
             formsPlot1.Name = "formsPlot1";
-            formsPlot1.Size = new Size(820, 501);
+            formsPlot1.Size = new Size(855, 501);
             formsPlot1.TabIndex = 0;
             // 
             // button1
@@ -77,18 +78,29 @@
             label1.TabIndex = 3;
             label1.Text = "Integration Time (ms)";
             // 
+            // button2
+            // 
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            button2.Location = new Point(662, 515);
+            button2.Name = "button2";
+            button2.Size = new Size(155, 60);
+            button2.TabIndex = 4;
+            button2.Text = "Save CSV";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(848, 606);
+            Controls.Add(button2);
             Controls.Add(label1);
             Controls.Add(numericUpDown1);
             Controls.Add(button1);
             Controls.Add(formsPlot1);
             Name = "Form1";
-            Text = "Form1";
-
+            Text = "AipplicaGUI";
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -100,5 +112,6 @@
         private Button button1;
         private NumericUpDown numericUpDown1;
         private Label label1;
+        private Button button2;
     }
 }

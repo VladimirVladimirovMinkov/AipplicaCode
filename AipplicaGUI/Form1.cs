@@ -1,4 +1,5 @@
 using AipplicaSpectrometer;
+using System.IO;
 
 namespace AipplicaGUI
 {
@@ -16,7 +17,8 @@ namespace AipplicaGUI
         private readonly float _offsetCal;
 
         private bool isClosing = false;
-        private Task _dataTask;
+        private bool readingData = false;
+        private Task? _dataTask = null;
 
         public Form1()
         {
@@ -54,11 +56,11 @@ namespace AipplicaGUI
             _linearCal = calV[1];
             _offsetCal = calV[2];
 
-            int integrationTimeMs = 10;
-            Console.WriteLine($"Setting Integration Time to {integrationTimeMs}");
-            Spectro.SetIntTimeMs(integrationTimeMs);
-
             InitializeComponent();
+
+            formsPlot1.Plot.XLabel("Wavelength (nm)");
+            formsPlot1.Plot.YLabel("Count");
+            formsPlot1.Refresh();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -68,22 +70,31 @@ namespace AipplicaGUI
             _dataTask = Task.Run(() =>
             {
                 int _currentItegTime = (int)numericUpDown1.Value;
+                Spectro.SetIntTimeMs(_currentItegTime);
+
+                // Update the reference signal
+                Spectro.ReadPattern(_patternBuffer);
+                Spectro.ReadArray(_referenceSignal);
+
                 while (true)
                 {
-                    Spectro.ReadPattern(_patternBuffer);
-                    Spectro.ReadArray(_spectralSignal);
-
-                    for (int i = 0; i < _formattedSignal.Length; i++)
+                    if (!readingData)
                     {
-                        _formattedSignal[i] = (_referenceSignal[2 * i] - _spectralSignal[2 * i]) * 256 + _referenceSignal[2 * i + 1] - _spectralSignal[2 * i + 1];
-                        _formattedSignalX[i] = _offsetCal + _linearCal * i + _squaredCal * i * i;
+                        Spectro.ReadPattern(_patternBuffer);
+                        Spectro.ReadArray(_spectralSignal);
+
+                        for (int i = 0; i < _formattedSignal.Length; i++)
+                        {
+                            _formattedSignal[i] = (_referenceSignal[2 * i] - _spectralSignal[2 * i]) * 256 + _referenceSignal[2 * i + 1] - _spectralSignal[2 * i + 1];
+                            _formattedSignalX[i] = _offsetCal + _linearCal * i + _squaredCal * i * i;
+                        }
                     }
 
                     if (isClosing) break;
                     formsPlot1.Invoke(() =>
                     {
                         formsPlot1.Plot.Clear();
-                        formsPlot1.Plot.AddScatterLines(_formattedSignalX, _formattedSignal);
+                        formsPlot1.Plot.AddScatter(_formattedSignalX, _formattedSignal);
                         formsPlot1.Refresh();
                     });
 
@@ -108,6 +119,22 @@ namespace AipplicaGUI
             if (_dataTask != null && !_dataTask.IsCompletedSuccessfully) _dataTask.Wait();
 
             base.OnFormClosing(e);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                readingData = true;
+                using StreamWriter streamWriter = new StreamWriter("./data.csv");
+                for (int i = 0; i < _formattedSignal.Length; i++)
+                {
+                    streamWriter.WriteLine($"{_formattedSignalX[i]},{_formattedSignal[i]}");
+                }
+            } finally
+            {
+                readingData = false;
+            }
         }
     }
 }
