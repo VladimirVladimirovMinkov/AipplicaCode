@@ -1,7 +1,7 @@
 #pragma once
 #include "windows.h"
-#include "include/libAPSpecW.h"
-#include "include/libMPSSE_spi.h"
+#include "libMPSSE_spi.h"
+#include "libAPSpecW.h"
 
 
 namespace AipplicaSpectrometer {
