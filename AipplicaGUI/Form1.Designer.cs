@@ -33,6 +33,7 @@
             numericUpDown1 = new NumericUpDown();
             label1 = new Label();
             button2 = new Button();
+            button3 = new Button();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
@@ -89,11 +90,23 @@
             button2.UseVisualStyleBackColor = true;
             button2.Click += button2_Click;
             // 
+            // button3
+            // 
+            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            button3.Location = new Point(384, 515);
+            button3.Name = "button3";
+            button3.Size = new Size(155, 60);
+            button3.TabIndex = 5;
+            button3.Text = "Zero";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(848, 606);
+            Controls.Add(button3);
             Controls.Add(button2);
             Controls.Add(label1);
             Controls.Add(numericUpDown1);
@@ -113,5 +126,6 @@
         private NumericUpDown numericUpDown1;
         private Label label1;
         private Button button2;
+        private Button button3;
     }
 }
