@@ -20,6 +20,8 @@ namespace AipplicaGUI
         private bool readingData = false;
         private Task? _dataTask = null;
 
+        bool zero = false;
+
         public Form1()
         {
             Spectro.InitUSB();
@@ -108,6 +110,13 @@ namespace AipplicaGUI
                         Spectro.ReadPattern(_patternBuffer);
                         Spectro.ReadArray(_referenceSignal);
                     }
+
+                    if (zero)
+                    {
+                        // Update the reference signal
+                        Spectro.ReadPattern(_patternBuffer);
+                        Spectro.ReadArray(_referenceSignal);
+                    }
                 }
             });
         }
@@ -139,7 +148,7 @@ namespace AipplicaGUI
 
         private void button3_Click(object sender, EventArgs e)
         {
-
+            zero = true;
         }
     }
 }
