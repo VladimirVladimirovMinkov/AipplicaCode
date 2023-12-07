@@ -78,7 +78,7 @@ namespace AipplicaGUI
                 Spectro.ReadPattern(_patternBuffer);
                 Spectro.ReadArray(_referenceSignal);
 
-                while (true)
+                while (!isClosing)
                 {
                     if (!readingData)
                     {
@@ -93,6 +93,7 @@ namespace AipplicaGUI
                     }
 
                     if (isClosing) break;
+
                     formsPlot1.Invoke(() =>
                     {
                         formsPlot1.Plot.Clear();
