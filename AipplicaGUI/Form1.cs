@@ -65,9 +65,11 @@ namespace AipplicaGUI
             formsPlot1.Refresh();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        void button1_Click(object sender, EventArgs e)
         {
             button1.Enabled = false;
+
+            uint steps = 2; // how many steps away from the current value for averaging
 
             _dataTask = Task.Run(() =>
             {
@@ -89,6 +91,25 @@ namespace AipplicaGUI
                         {
                             _formattedSignal[i] = (_referenceSignal[2 * i] - _spectralSignal[2 * i]) * 256 + _referenceSignal[2 * i + 1] - _spectralSignal[2 * i + 1];
                             _formattedSignalX[i] = _offsetCal + _linearCal * i + _squaredCal * i * i;
+                        }
+                        if (radioButton1.Checked) ;
+                        else if (radioButton2.Checked)
+                        {
+                            double[] a = new double[1500];
+                            _formattedSignal.CopyTo(a, 0);
+
+                            for (uint i = steps; i < _formattedSignal.Length - steps; i++)
+                            {
+                                for (int j = -(int)steps; j < steps; j++)
+                                {
+                                    _formattedSignal[i] += a[i+j];
+                                }
+                                _formattedSignal[i] = _formattedSignal[i] / (steps * 2 + 2);
+                            }
+                        }
+                        else if (radioButton3.Checked)
+                        {
+
                         }
                     }
 
@@ -141,7 +162,8 @@ namespace AipplicaGUI
                 {
                     streamWriter.WriteLine($"{_formattedSignalX[i]},{_formattedSignal[i]}");
                 }
-            } finally
+            }
+            finally
             {
                 readingData = false;
             }
@@ -150,6 +172,33 @@ namespace AipplicaGUI
         private void button3_Click(object sender, EventArgs e)
         {
             zero = true;
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!radioButton1.Checked) radioButton1.Checked = true;
+            else
+            {
+                radioButton2.Checked = false; radioButton3.Checked = false;
+            }
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            if(!radioButton2.Checked) radioButton2.Checked = true;
+            else
+            {
+                radioButton1.Checked = false; radioButton3.Checked = false;
+            }
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            if(!radioButton3.Checked) radioButton3.Checked = true;
+            else
+            {
+                radioButton2.Checked = false; radioButton1.Checked = false;
+            }
         }
     }
 }
