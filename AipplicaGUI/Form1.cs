@@ -69,7 +69,7 @@ namespace AipplicaGUI
         {
             button1.Enabled = false;
 
-            uint steps = 2; // how many steps away from the current value for averaging
+            uint steps = 3; // how many steps away from the current value for averaging
 
             _dataTask = Task.Run(() =>
             {
